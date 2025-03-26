@@ -1,10 +1,10 @@
-# Setup Local - Confluent Platform
+# Local Setup - Confluent Platform
 
-## Pré-requisitos
-* [Docker]()
-* [Docker Compose]()
-* [Kafka CLI]()
+## Prerequisites
+* [Docker](https://docs.docker.com/desktop/)
+* [Docker Compose](https://docs.docker.com/compose/install/)
+* [Kafka CLI](https://kafka.apache.org/downloads)
 
-## Tutoriais
-* [Ambiente local sem autenticação e permissão de acesso]()
-* [Ambiente local com autenticação e permissão de acesso]()
+## Tutorials
+* [Local setup with no authentication](cp-noauth/README.md)
+* [Local setup with authentication and authorization using RBAC]()
