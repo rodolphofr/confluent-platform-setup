@@ -7,4 +7,4 @@
 
 ## Tutorials
 * [Local setup with no authentication](cp-noauth/README.md)
-* [Local setup with authentication and authorization using RBAC]()
+* [Local setup with authentication and authorization using RBAC](cp-rbac/README.md)

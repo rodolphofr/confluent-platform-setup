@@ -39,7 +39,7 @@ If any component fails to start, run the command `docker compose -f cp-noauth/do
 
 You can interact with the broker and schema registry either via the Kafka CLI or through the Control Center.
 
-## Via Kafka CLI
+### Via Kafka CLI
 
 Let’s create a sample topic using the command below:
 
