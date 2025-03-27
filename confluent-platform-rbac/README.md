@@ -1,12 +1,4 @@
-# RBAC (Role-Based Access Control)
-
-Role-Based Access Control (RBAC) is a method of access control based on roles assigned to users within an organization. RBAC is defined through predefined roles and their associated privileges. Roles are a set of permissions that can be bound to a specific resource or service, allowing the associated privileges to be applied to that resource.
-
-Using RBAC, you can manage who has access to specific Confluent Platform resources and what actions users can perform within those resources.
-
-Confluent provides a set of [predefined roles](https://docs.confluent.io/platform/current/security/authorization/rbac/rbac-predefined-roles.html) for access control over resources such as organizations, environments, clusters, and Kafka-specific resources. Each role grants a specific set of permissions aligned with different responsibilities within the platform.
-
-## Provisioning the Local Environment with RBAC
+# Provisioning the Local Environment with RBAC
 
 The `confluent-platform-rbac` environment is a Docker-based setup with all services running on a single host, intended exclusively for testing and demonstrating RBAC in the Confluent Platform.
 
@@ -20,6 +12,14 @@ This environment has been provisioned with:
 * Confluent Platform version 7.9.0  
 * Kafka CLI version 2.13-4.0.0 for event production and consumption  
 * curl version 7.81.0  
+
+## RBAC (Role-Based Access Control)
+
+Role-Based Access Control (RBAC) is a method of access control based on roles assigned to users within an organization. RBAC is defined through predefined roles and their associated privileges. Roles are a set of permissions that can be bound to a specific resource or service, allowing the associated privileges to be applied to that resource.
+
+Using RBAC, you can manage who has access to specific Confluent Platform resources and what actions users can perform within those resources.
+
+Confluent provides a set of [predefined roles](https://docs.confluent.io/platform/current/security/authorization/rbac/rbac-predefined-roles.html) for access control over resources such as organizations, environments, clusters, and Kafka-specific resources. Each role grants a specific set of permissions aligned with different responsibilities within the platform.
 
 ## Broker
 

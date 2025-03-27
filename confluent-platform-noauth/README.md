@@ -1,4 +1,4 @@
-# Installation
+# Provisioning the Local Environment with No Authentication
 
 1. From the project root, run the command below to provision the Confluent Control Center, Broker, and Schema Registry:
 
