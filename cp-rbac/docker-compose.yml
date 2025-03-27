@@ -12,7 +12,7 @@ services:
     volumes:
       - ./security:/etc/kafka/secrets
     healthcheck:
-      # Verifica se o broker esta saudavel fazendo uma solicitacao HTTP para o endpoint /v3/clusters do broker
+      # Checks if the broker is healthy by making an HTTP request to the broker's /v3/clusters endpoint
       test: curl --user superUser:superUser -fail --silent --insecure http://broker:8090/kafka/v3/clusters/ --output /dev/null || exit 1
       interval: 10s
       retries: 5
@@ -40,11 +40,11 @@ services:
       # See https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-storage-sh
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
 
-      # Configuracoes do Autorizador Confluent
-      # Lista de super usuarios separada por ponto e virgula no formato <principalType>:<principalName>
+      # Confluent Authorizer configuration
+      # Super user list separated by semmicolon in the format <principalType>:<principalName>
       KAFKA_SUPER_USERS: User:admin;User:mds;User:superUser;User:ANONYMOUS
 
-      # Configuracoes do Servidor MDS
+      # Confluent Metadata Service configuration
       KAFKA_AUTHORIZER_CLASS_NAME: io.confluent.kafka.security.authorizer.ConfluentServerAuthorizer
       KAFKA_CONFLUENT_AUTHORIZER_ACCESS_RULE_PROVIDERS: KRAFT_ACL,CONFLUENT
       KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
@@ -58,7 +58,7 @@ services:
       KAFKA_CONFLUENT_METADATA_SERVER_USER_STORE: FILE
       KAFKA_CONFLUENT_METADATA_SERVER_USER_STORE_FILE_PATH: /etc/kafka/secrets/login.properties
 
-      # Configuracao de seguranca para o listener EXTERNAL
+      # EXTERNAL listener security configuration
       KAFKA_LISTENER_NAME_EXTERNAL_SASL_ENABLED_MECHANISMS: PLAIN
       KAFKA_LISTENER_NAME_EXTERNAL_PLAIN_SASL_JAAS_CONFIG: |
         org.apache.kafka.common.security.plain.PlainLoginModule required \
@@ -68,7 +68,7 @@ services:
         user_mds="mds" \
         user_harry="harry";
 
-      # Configuracao de seguranca para o listener TOKEN 
+      # TOKEN listener security configuration
       KAFKA_LISTENER_NAME_TOKEN_SASL_ENABLED_MECHANISMS: OAUTHBEARER
       KAFKA_LISTENER_NAME_TOKEN_OAUTHBEARER_SASL_SERVER_CALLBACK_HANDLER_CLASS: io.confluent.kafka.server.plugins.auth.token.TokenBearerValidatorCallbackHandler
       KAFKA_LISTENER_NAME_TOKEN_OAUTHBEARER_SASL_LOGIN_CALLBACK_HANDLER_CLASS: io.confluent.kafka.server.plugins.auth.token.TokenBearerServerLoginCallbackHandler
@@ -90,7 +90,7 @@ services:
       KAFKA_KAFKA_REST_CONFLUENT_METADATA_SERVER_URLS_MAX_AGE_MS: 60000
       KAFKA_KAFKA_REST_CLIENT_CONFLUENT_METADATA_SERVER_URLS_MAX_AGE_MS: 60000
 
-      # Configuracoes diversas de replicacao e monitoramento da Confluent
+      # Replication and monitoring configuration
       KAFKA_CONFLUENT_SECURITY_EVENT_LOGGER_EXPORTER_KAFKA_TOPIC_REPLICATOR: 1
       KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_CONFLUENT_METADATA_TOPIC_REPLICATION_FACTOR: 1
