@@ -6,7 +6,7 @@ Using RBAC, you can manage who has access to specific Confluent Platform resourc
 
 Confluent provides a set of [predefined roles](https://docs.confluent.io/platform/current/security/authorization/rbac/rbac-predefined-roles.html) for access control over resources such as organizations, environments, clusters, and Kafka-specific resources. Each role grants a specific set of permissions aligned with different responsibilities within the platform.
 
-# Provisioning the Local Environment with RBAC
+## Provisioning the Local Environment with RBAC
 
 The `confluent-platform-rbac` environment is a Docker-based setup with all services running on a single host, intended exclusively for testing and demonstrating RBAC in the Confluent Platform.
 
