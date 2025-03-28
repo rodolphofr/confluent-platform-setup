@@ -112,11 +112,50 @@ To produce events to a Confluent Kafka topic, an external user must authenticate
 3. Produce events to the `orders` topic:
 
 ```sh
-bin/kafka-console-producer.sh --broker-list localhost:9094 \
+bin/kafka-console-producer.sh --bootstrap-server localhost:9094 \
   --topic orders \
   --producer-property security.protocol=SASL_PLAINTEXT \
   --producer-property sasl.mechanism=PLAIN \
   --producer-property sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="harry" password="harry";'
+```
+
+### RBAC Unauthorized User (e.g., user chris)
+
+If a user is not authorized to produce events, follow the steps below to grant the necessary permissions:
+
+1. Add the user to the [`login.properties`](./security/login.properties) file:
+
+```properties
+chris:chris
+```
+
+2. Add the user to the `jaas.config` through the environment variable `KAFKA_LISTENER_NAME_EXTERNAL_PLAIN_SASL_JAAS_CONFIG` in the [docker-compose.yml](./docker-compose.yml):
+
+```yml
+org.apache.kafka.common.security.plain.PlainLoginModule required \
+...
+...
+user_chris="chris";
+```
+
+3. Create a role binding for user `chris` with write permissions to the `orders` topic:
+
+```sh
+docker compose exec -T confluent-cli bash -c "confluent iam rbac role-binding create \
+  --principal User:chris \
+  --role DeveloperWrite \
+  --resource Topic:orders \
+  --kafka-cluster <cluster-id>"
+```
+
+4. Produce events to the `orders` topic:
+
+```sh
+bin/kafka-console-producer.sh --bootstrap-server localhost:9094 \
+  --topic orders \
+  --producer-property security.protocol=SASL_PLAINTEXT \
+  --producer-property sasl.mechanism=PLAIN \
+  --producer-property sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="chris" password="chris";'
 ```
 
 ## Consuming Events
@@ -138,6 +177,56 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 \
   --consumer-property security.protocol=SASL_PLAINTEXT \
   --consumer-property sasl.mechanism=PLAIN \
   --consumer-property sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="harry" password="harry";'
+```
+
+### RBAC Unauthorized User (e.g., user chris)
+
+If a user is not authorized to consume events, follow the steps below to grant the necessary permissions:
+
+1. Add the user to the [`login.properties`](./security/login.properties) file:
+
+```properties
+chris:chris
+```
+
+2. Add the user to the `jaas.config` through the environment variable `KAFKA_LISTENER_NAME_EXTERNAL_PLAIN_SASL_JAAS_CONFIG` in the [docker-compose.yml](./docker-compose.yml):
+
+```yml
+org.apache.kafka.common.security.plain.PlainLoginModule required \
+...
+...
+user_chris="chris";
+```
+
+3. Create a role binding for user `chris` with write permissions to the `orders` topic:
+
+```sh
+docker compose exec -T confluent-cli bash -c "confluent iam rbac role-binding create \
+  --principal User:chris \
+  --role DeveloperRead \
+  --resource Topic:orders \
+  --kafka-cluster <cluster-id>"
+```
+
+4. Create a role binding for user `chris` with read permissions for the `console-consumer` group:
+
+```sh
+docker compose exec -T confluent-cli bash -c "confluent iam rbac role-binding create \
+  --principal User:chris \
+  --role DeveloperRead \
+  --resource Group:console-consumer \
+  --kafka-cluster <cluster-id>"
+```
+
+5. Consume events from the `orders` topic:
+
+```sh
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9094 \
+  --topic orders \
+  --group console-consumer \
+  --consumer-property security.protocol=SASL_PLAINTEXT \
+  --consumer-property sasl.mechanism=PLAIN \
+  --consumer-property sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="chris" password="chris";'
 ```
 
 ## Stopping the Environment
